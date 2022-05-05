@@ -9,6 +9,48 @@ public class Code {
         eg3_bignum();
     }
 
+    // 求连续数列 525 6  --》85 86 87。。。90 不存在 返回-1
+    private static void eg1() {
+        Scanner sc = new Scanner(System.in);
+        // 1、输入正整数的和S和数列里数的个数N
+        int s = sc.nextInt();
+        int n = sc.nextInt();
+
+        int a1 = 1;
+        List list = new ArrayList();
+        if (2 * s % n != 0) {
+            System.out.println("无解,返回：" + -1);
+            return;
+        } else if ((2 * s / n - n) % 2 == 0) {
+            System.out.println("无解,返回：" + -1);
+            return;
+        } else
+            a1 = (2 * s / n + 1 - n) / 2;
+
+        for (int i = 0; i < n; i++) {
+            list.add(a1 + i);
+        }
+        System.out.println(list);
+    }
+
+    // 求那些连续自然数之和 等于N
+    public static void eg2_numbersum() {
+        Scanner sc = new Scanner(System.in);
+        int N = sc.nextInt();
+        int ans = 0;
+        int max = 0;
+        int onetonplus = 0;
+        while (onetonplus < N) {
+            if ((N - onetonplus) % (max + 1) == 0) {
+                ans++;
+            }
+            max++;
+            onetonplus += max;
+        }
+        System.out.println(ans);
+    }
+
+    // 最大值 数字重新排序  求最大值 10 9 ---910
     private static void eg3_bignum() {
         Scanner sc = new Scanner(System.in);
         String numsStr = sc.nextLine();
@@ -33,45 +75,8 @@ public class Code {
         System.out.println(sb.substring(k));
     }
 
-    private static void eg1() {
-        Scanner sc = new Scanner(System.in);
-// 1、输入正整数的和S和数列里数的个数N
-        int s = sc.nextInt();
-        int n = sc.nextInt();
 
-        int a1 = 1;
-        List list = new ArrayList();
-        if (2 * s % n != 0) {
-            System.out.println("无解,返回：" + -1);
-            return;
-        } else if ((2 * s / n - n) % 2 == 0) {
-            System.out.println("无解,返回：" + -1);
-            return;
-        } else
-            a1 = (2 * s / n + 1 - n) / 2;
-
-        for (int i = 0; i < n; i++) {
-            list.add(a1 + i);
-        }
-        System.out.println(list);
-    }
-
-    public static void eg2_numbersum() {
-        Scanner sc = new Scanner(System.in);
-        int N = sc.nextInt();
-        int ans = 0;
-        int max = 0;
-        int onetonplus = 0;
-        while (onetonplus < N) {
-            if ((N - onetonplus) % (max + 1) == 0) {
-                ans++;
-            }
-            max++;
-            onetonplus += max;
-        }
-        System.out.println(ans);
-    }
-
+    // 输出字符串中包含所有整数的最小和
     public static void eg4(String[] args) {
         Scanner in = new Scanner(System.in);
         String str = in.nextLine();
@@ -109,5 +114,25 @@ public class Code {
         }
         System.out.print(sum);
     }
+
+
+    // 查找字符串中第k个最小ascii码值的字母(k>=1)
+    public static void eg5() {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.nextLine();
+        int k = sc.nextInt();
+        char[] chars = s.toCharArray();
+        Map<Character, Integer> map = new HashMap<>();
+        for (int i = 0; i < chars.length; i++) {
+            if (!map.containsKey(chars[i])) {
+                map.put(chars[i], i);
+            }
+        }
+        Arrays.sort(chars);
+        if (k > s.length())
+            System.out.println(map.get(chars[s.length() - 1]));
+        System.out.println(map.get(chars[k - 1]));
+    }
+
 
 }
