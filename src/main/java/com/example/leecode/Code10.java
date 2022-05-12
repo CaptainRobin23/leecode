@@ -8,7 +8,68 @@ public class Code10 {
         eg10();
         eg11();
         eg12();
+        eg13();
+        eg14();
+    }
 
+    // 分配内存池
+    public static void eg14() {
+        Scanner sc = new Scanner(System.in);
+        String[] split = sc.nextLine().split(",");
+        String[] asks = sc.nextLine().split(",");
+        //用treeMap将大小和数量对应起来，并按大小排序
+        TreeMap<Integer, Integer> map = new TreeMap<>();
+        for (String s : split) {
+            Integer size = Integer.parseInt(s.split(":")[0]);
+            Integer num = Integer.parseInt(s.split(":")[1]);
+            map.put(size, num);
+        }
+
+        StringBuilder sb = new StringBuilder();
+        ArrayList<Integer> list = new ArrayList<>(map.keySet()); //有参构造！！
+        for (String s : asks) {
+            int flag = 0;
+            for (int i : list) {
+                int ask = Integer.parseInt(s);
+                if (ask <= i && map.get(i) > 0) {
+                    sb.append("true").append(",");
+                    map.put(i, map.get(i) - 1); //更新内存池
+                    flag = 1;
+                    break;
+                }
+            }
+            if (flag == 0) {
+                sb.append("false").append(",");
+            }
+        }
+        System.out.println(sb.toString().substring(0, sb.length() - 1));
+    }
+
+    // 找车位 1000111
+    public static void eg13() {
+        Scanner in = new Scanner(System.in);
+        String str = in.nextLine();
+        String[] strs = str.split(",");
+        int seats[] = new int[strs.length];
+        for (int i = 0; i < strs.length; i++) {
+            seats[i] = Integer.parseInt(strs[i]);
+        }
+        int prev = -1;
+        int max = 1;
+        for (int i = 0; i < seats.length; i++) {
+            //遇到1时计算有多少个0
+            if (seats[i] == 1) {
+                //前面遇到过1，要除以2
+                if (prev >= 0) max = Math.max((i - prev) / 2, max);
+                    //前面没有1不需要除2
+                else max = i;
+                prev = i;
+            }
+        }
+        //最后的0个数再判断一次
+        max = Math.max((seats.length - 1) - prev, max);
+        System.out.println(max);
+        ;
     }
 
     // 勾股数元组（素勾股数）  abc互质
@@ -99,7 +160,6 @@ public class Code10 {
                         }
                         k++;
                     }
-
                     sb.append(k + ",");
                 }
                 System.out.println(sb.substring(0, sb.length() - 1));
