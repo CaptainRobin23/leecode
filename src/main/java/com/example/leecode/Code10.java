@@ -10,6 +10,198 @@ public class Code10 {
         eg12();
         eg13();
         eg14();
+        eg15();
+        eg16(12);
+        eg17();
+        eg18();
+        eg19();
+
+    }
+
+    // 机器人走迷宫
+    public static void eg19() {
+        // 0 是未踩过的。 1是墙。 2是踩过的。
+        Scanner in = new Scanner(System.in);
+        int x = in.nextInt();
+        int y = in.nextInt();
+        int[][] room = new int[x][y];
+        int wall = in.nextInt();
+        while (wall-- > 0) {
+            int wallX = in.nextInt();
+            int wallY = in.nextInt();
+            room[wallX][wallY] = 1;
+        }
+        path(room, 0, 0, x - 1, y - 1);
+        int badPath = 0; //陷阱
+        int noWay = 0; // 不可达
+        for (int i = 0; i < x; i++) {
+            for (int j = 0; j < y; j++) {
+                if (room[i][j] == 9) {
+                    badPath += 1;
+                } else if (room[i][j] == 0) {
+                    noWay += 1;
+                }
+            }
+        }
+        System.out.println(badPath + " " + noWay);
+    }
+
+    //不可达方格 : 机器人无法通过增加X Y值到的方格.走完还是0的代表不可达
+    //陷阱方格 : 走到该位置不能正确走到终点的方格。 向前/向上不可达/同为陷阱方格则也标记为陷阱方格 9
+    //走过的为2
+    private static void path(int[][] room, int nextX, int nextY, int x, int y) {
+        //判断是墙直接跳过
+        if (room[nextX][nextY] == 1) {
+            return;
+        }
+        if (room[nextX][nextY] != 0) {
+            return;
+        }
+        if (nextX == x && nextY == y) {
+            room[nextX][nextY] = 2;
+            return;
+        }
+        if (nextX < x) {
+            path(room, nextX + 1, nextY, x, y);
+        }
+        if (nextY < y) {
+            path(room, nextX, nextY + 1, x, y);
+        }
+
+        //该点向上/向前均为不可达/陷阱方格则为陷阱方格
+        if (nextX == x || nextY == y) {
+            if (nextX == x && nextY < y && room[nextX][nextY + 1] != 2) {
+                room[nextX][nextY] = 9;
+            } else if (nextY == y && nextX < x && room[nextX + 1][nextY] != 2) {
+                room[nextX][nextY] = 9;
+            } else {
+                room[nextX][nextY] = 2;
+            }
+        } else if (room[nextX + 1][nextY] != 2 && room[nextX][nextY + 1] != 2) {
+            room[nextX][nextY] = 9;
+        } else {
+            room[nextX][nextY] = 2;
+        }
+        return;
+    }
+
+    // TLV解码
+    public static void eg18() {
+        Scanner in = new Scanner(System.in);
+        String tag = in.nextLine();
+        String[] tlv = in.nextLine().split(" ");
+        for (int i = 0; i < tlv.length; ) {
+            int length = Integer.parseInt(tlv[i + 2] + tlv[i + 1], 16);  // 将字符串的Length转为16进制，小端，需要反过来
+            if (tag.equals(tlv[i])) {
+                StringBuilder sb = new StringBuilder();
+                for (int j = i + 3; j < i + 3 + length; j++) {
+                    sb.append(tlv[j]).append(" ");
+                }
+                System.out.println(sb.toString());
+                break;
+            } else {
+                i += length + 3;
+            }
+        }
+    }
+
+    // 用户调度 3个用户abc 去他们任务耗时总和最短  3*3行数  求和最小
+    public static void eg17() {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[][] res = new int[n][3];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < 3; j++) {
+                res[i][j] = sc.nextInt();
+            }
+        }
+        int count = 0;
+        int index = 0;
+        int[] array = new int[3];
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            if (i == 0) {
+
+                for (int j = 0; j < 3; j++) {
+                    array[j] = res[i][j];
+                }
+                Arrays.sort(array);
+                for (int j = 0; j < 3; j++) {
+                    if (array[0] == res[i][j]) {
+                        //获得该用户选择的策略
+                        index = j;
+                    }
+                }
+                count = count + array[0];
+            } else {
+                //拿到该用户的三种资源消耗并将上一个用户选择的策略排除
+                for (int j = 0; j < 3; j++) {
+                    if (j != index) {
+                        arrayList.add(res[i][j]);
+                    }
+                }
+                if (arrayList.get(0) >= arrayList.get(1)) {
+                    count = count + arrayList.get(1);
+                    for (int j = 0; j < 3; j++) {
+                        if (arrayList.get(1) == res[i][j]) {
+                            //获得该用户选择的策略
+                            index = j;
+                        }
+                    }
+                } else {
+                    count = count + arrayList.get(0);
+                    for (int j = 0; j < 3; j++) {
+                        if (arrayList.get(0) == res[i][j]) {
+                            //获得该用户选择的策略
+                            index = j;
+                        }
+                    }
+                }
+                arrayList.clear();
+            }
+        }
+        System.out.println(count);
+    }
+
+    // a[n]的描述是a[n+1] 1 11 21
+    public static String eg16(int n) {
+        if (n == 0) {
+            return "1";
+        } else {
+            String str = eg16(n - 1);
+            StringBuffer buffer = new StringBuffer();
+            for (int i = 0; i < str.length(); ) {
+                int count = 1;
+                char tmp = str.charAt(i);
+                if (i == str.length() - 1) {
+                    buffer.append(count);
+                    buffer.append(tmp);
+                    return buffer.toString();
+                }
+                for (int j = i + 1; j < str.length(); j++) {
+                    if (str.charAt(i) != str.charAt(j)) {
+                        buffer.append(count);
+                        buffer.append(tmp);
+                        i = j;
+                        break;
+                    } else {
+                        count++;
+                        i++;
+                        if (j == str.length() - 1) {
+                            buffer.append(count);
+                            buffer.append(tmp);
+                            return buffer.toString();
+                        }
+                    }
+                }
+            }
+            return buffer.toString();
+        }
+    }
+
+    // 墓碑碎片  所有组合升序排列输出  abc。。。
+    private static void eg15() {
+        // todo
     }
 
     // 分配内存池

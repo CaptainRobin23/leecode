@@ -7,6 +7,11 @@ public class Code {
 //        eg1();
 //        eg2_numbersum();
         eg3_bignum();
+        eg4();
+        eg5();
+        eg7();
+        eg8();
+        eg9();
     }
 
     // 求连续数列 525 6  --》85 86 87。。。90 不存在 返回-1
@@ -76,7 +81,7 @@ public class Code {
 
 
     // 输出字符串中包含所有整数的最小和
-    public static void eg4(String[] args) {
+    public static void eg4() {
         Scanner in = new Scanner(System.in);
         String str = in.nextLine();
         char[] ch = str.toCharArray();
@@ -164,7 +169,11 @@ public class Code {
     }
 
     // 字符串子序列 下标
-    public static int eg7(String source, String target) {
+    public static int eg7() {
+        Scanner sc = new Scanner(System.in);
+        // 1、输入正整数的和S和数列里数的个数N
+        String source = sc.next();
+        String target = sc.next();
         // write your code here
         if (source == null || target == null) {
             return -1;
