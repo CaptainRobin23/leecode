@@ -41,17 +41,29 @@ public class Code {
     public static void eg2_numbersum() {
         Scanner sc = new Scanner(System.in);
         int N = sc.nextInt();
-        int ans = 0;
-        int max = 0;
-        int onetonplus = 0;
-        while (onetonplus < N) {
-            if ((N - onetonplus) % (max + 1) == 0) {
-                ans++;
+        Stack<String> str = new Stack<>();
+        for (int j = 1; j <= N; j++) {
+            int sum = 0;
+            String ansEnv = "";
+            int i = j;
+            while (i <= N) {
+                sum += i;
+                ansEnv += i + "+";
+                if (sum == N) {
+                    ansEnv = N + "=" + ansEnv;
+                    str.push(ansEnv.substring(0, ansEnv.length() - 1));
+                }
+                if (sum > N) {
+                    break;
+                }
+                i++;
             }
-            max++;
-            onetonplus += max;
         }
-        System.out.println(ans);
+        int size = str.size();
+        while (!str.isEmpty()) {
+            System.out.println(str.pop());
+        }
+        System.out.println("Reuslt:" + size);
     }
 
     // 最大值 数字重新排序  求最大值 10 9 ---910
