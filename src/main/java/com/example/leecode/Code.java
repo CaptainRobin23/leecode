@@ -198,33 +198,21 @@ public class Code {
     public static void eg8() {
         Scanner sc = new Scanner(System.in);
         String str = "";
-        while (sc.hasNext()) {
-            str = sc.nextLine();
-        }
+        str = sc.nextLine();
         char[] ch = str.toCharArray();
         StringBuilder sb = new StringBuilder();
+        int count = 0;
         for (int i = 0; i < ch.length; i++) {
-            if (!(ch[i] >= 'a' && ch[i] <= 'z')) {
-                System.out.print("!error");
-                return;
-            }
-            int tarNum = 1;
-            char tar = ch[i];
-            while (i + 1 < ch.length && ch[i + 1] == ch[i]) {
-                tarNum++;
-                i++;
-            }
-            sb.append(tarNum);
-            sb.append(tar);
-        }
-        for (int i = 0; i < sb.length(); i++) {
-            if (sb.charAt(i) == '1') {
-                sb.deleteCharAt(i);
-                i--;
-            }
-            if (sb.charAt(i) == '2') {
-                sb.replace(i, i + 1, sb.charAt(i + 1) + "");
-                i--;
+            if ((ch[i] + "").matches("[0-9]")) {
+                count = count * 10 + Integer.parseInt(ch[i] + "");
+            } else if ((ch[i] + "").matches("[a-zA-Z]")) {
+                if (count == 0) {
+                    sb.append(ch[i] + "");
+                }
+                for (int j = 0; j < count; j++) {
+                    sb.append(ch[i]);
+                }
+                count = 0;
             }
         }
         System.out.print(sb.toString());
