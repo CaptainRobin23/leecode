@@ -20,7 +20,6 @@ public class Code {
         // 1、输入正整数的和S和数列里数的个数N
         int s = sc.nextInt();
         int n = sc.nextInt();
-
         int a1 = 1;
         List list = new ArrayList();
         if (2 * s % n != 0) {
@@ -70,14 +69,7 @@ public class Code {
     private static void eg3_bignum() {
         Scanner sc = new Scanner(System.in);
         String numsStr = sc.nextLine();
-//        int[] nums = Arrays.(numsStr.split(" "));
-        // write code here
-//        int n = nums.length;
         String[] numStr = numsStr.split(" ");
-//        String[] numStr = new String[n];
-//        for (int i = 0; i < n; i++) {
-//            numStr[i] = "" + nums[i];
-//        }
         Arrays.sort(numStr, (k1, k2) -> {
             String ab = k1 + k2;
             String ba = k2 + k1;
@@ -181,17 +173,23 @@ public class Code {
     }
 
     // 字符串子序列 下标
-    public static int eg7() {
+    public static void eg7() {
         Scanner sc = new Scanner(System.in);
-        // 1、输入正整数的和S和数列里数的个数N
-        String source = sc.next();
-        String target = sc.next();
-        // write your code here
-        if (source == null || target == null) {
-            return -1;
+        String t = sc.nextLine();    //target
+        String s = sc.nextLine();    //source
+        int ti = t.length() - 1;
+        int si = s.length() - 1;
+        while (ti >= 0 && si >= 0) {
+            if (t.charAt(ti) == s.charAt(si)) {
+                if (ti == 0) {
+                    System.out.println(si);
+                    return;
+                }
+                ti--;
+            }
+            si--;
         }
-        int index1 = source.indexOf(target);
-        return index1;
+        System.out.println(-1);
     }
 
     // 字符串解压 4fj7h
@@ -232,101 +230,36 @@ public class Code {
 
     // 数组合并
     public static void eg9() {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        String[] s1 = sc.next().split(",");
-        String[] s2 = sc.next().split(",");
-        ArrayList<String> s3 = new ArrayList<String>();
-        ArrayList<String> s4 = new ArrayList<String>();
-        ArrayList<String> s5 = new ArrayList<String>();
-
-        for (int i = 0; i < s1.length; i++) {
-            s4.add(s1[i]);
+        Scanner scanner = new Scanner(System.in);
+        int n = Integer.parseInt(scanner.nextLine());
+        int m = Integer.parseInt(scanner.nextLine());
+        ArrayList<List<String>> lists = new ArrayList<>();
+        int count = 0;
+        while (count < m) {
+            String s = scanner.nextLine();
+            count++;
+            if ("".equals(s)) {
+                break;
+            }
+            lists.add(Arrays.asList(s.split(",")));
         }
-
-        for (int i = 0; i < s2.length; i++) {
-            s5.add(s2[i]);
-        }
-
-        boolean b = true;
-        while (b) {
-            if (s4.size() > 0) {
-                if (s4.size() >= n) {
-                    for (int i = 0; i < n; i++) {
-                        s3.add(s4.get(i));
-                    }
-
-                    Iterator i = s4.iterator();
-                    int count = 0;
-                    while (i.hasNext()) {
-                        if (count >= n) {
-                            break;
-                        }
-                        s4.remove(0);
-                        count++;
-                    }
-                } else {
-                    for (int i = 0; i < s4.size(); i++) {
-                        s3.add(s4.get(i));
-                    }
-
-                    Iterator i = s4.iterator();
-                    int count = 0;
-                    int siz = s4.size();
-                    while (i.hasNext()) {
-                        if (count >= siz) {
-                            break;
-                        }
-                        s4.remove(0);
-                        count++;
-                    }
+        scanner.close();
+        int counter = 0;
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; counter != n; i++) {
+            for (List<String> list : lists) {
+                int start = i * n;
+                int end = Math.min(start + n, list.size());
+                if (start >= list.size()) {
+                    counter++;
+                    break;
+                }
+                for (int j = start; j < end; j++) {
+                    sb.append(list.get(j)).append(",");
                 }
             }
-
-            if (s5.size() > 0) {
-                if (s5.size() >= n) {
-                    for (int i = 0; i < n; i++) {
-                        s3.add(s5.get(i));
-                    }
-
-                    Iterator i = s5.iterator();
-                    int count = 0;
-                    while (i.hasNext()) {
-                        if (count >= n) {
-                            break;
-                        }
-                        s5.remove(0);
-                        count++;
-                    }
-                } else {
-                    for (int i = 0; i < s5.size(); i++) {
-                        s3.add(s5.get(i));
-                    }
-
-                    Iterator i = s4.iterator();
-                    int count = 0;
-                    int siz = s5.size();
-                    while (i.hasNext()) {
-                        if (count >= siz) {
-                            break;
-                        }
-                        s5.remove(0);
-                        count++;
-                    }
-                }
-            }
-
-            if (s4.size() == 0 && s5.size() == 0) {
-                b = false;
-            }
         }
-
-        for (int i = 0; i < s3.size(); i++) {
-            if (i == (s3.size() - 1))
-                System.out.print(s3.get(i));
-            else
-                System.out.print(s3.get(i) + " ,");
-        }
+        System.out.println(sb.deleteCharAt(sb.length() - 1));
     }
 
 

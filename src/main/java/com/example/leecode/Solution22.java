@@ -12,12 +12,11 @@ import java.util.TreeMap;
 class Solution22 {
     static class AllocatedMemory {
         private TreeMap<Integer, Integer> hasAllocated;
-        private int ADDRESS_DEFAULT_HEAD = 0;
+        private int ADDRESS_DEFAULT_HEAD = 0; // import java.nio.charset.StandardCharsets;
         private int ADDRESS_DEFAULT_END = 100;
         AllocatedMemory() {
             hasAllocated = new TreeMap<>();
         }
-
         String request(int size) {
             int addressHead = ADDRESS_DEFAULT_HEAD;
             if (size <= 0 || size > 100) {
@@ -69,7 +68,6 @@ class Solution22 {
                     }
                 }
             }
-
             cin.close();
         }
     }

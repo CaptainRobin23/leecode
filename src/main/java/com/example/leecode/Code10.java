@@ -35,12 +35,10 @@ public class Code10 {
             fun(arr, ch);
         }
     }
-
     static void fun(char[][] arr, char[] ch) {
         LinkedList<int[]> snake = new LinkedList<>();
         int[] start = new int[2];
-        //找到起点
-        for (int i = 0; i < arr.length; i++) {
+        for (int i = 0; i < arr.length; i++) {//找到起点
             for (int j = 0; j < arr[i].length; j++) {
                 if (arr[i][j] == 'H') {
                     start[0] = i;
@@ -49,10 +47,8 @@ public class Code10 {
                 }
             }
         }
-        //起点入队
-        snake.add(start);
-        //遍历操作列表
-        for (int i = 0; i < ch.length; i++) {
+        snake.add(start);//起点入队
+        for (int i = 0; i < ch.length; i++) {  //遍历操作列表
             int flag = 0;
             if (ch[i] == 'U') {
                 flag = 1;
@@ -84,19 +80,15 @@ public class Code10 {
                 if (isEnd(snake, start)) {
                     break;
                 }
-                //吃到，只加不减
-                if (arr[start[0]][start[1]] == 'F') {
+                if (arr[start[0]][start[1]] == 'F') {//吃到，只加不减
                     snake.addFirst(start);
                 } else {
-                    //没吃到，加头去尾
-                    snake.addFirst(start);
+                    snake.addFirst(start);//没吃到，加头去尾
                     snake.removeLast();
                 }
             }
         }
         System.out.println(snake.size());
-
-
     }
 
     static boolean isEnd(LinkedList<int[]> list, int[] a) {
@@ -161,9 +153,7 @@ public class Code10 {
         if (nextY < y) {
             path(room, nextX, nextY + 1, x, y);
         }
-
-        //该点向上/向前均为不可达/陷阱方格则为陷阱方格
-        if (nextX == x || nextY == y) {
+        if (nextX == x || nextY == y) { //该点向上/向前均为不可达/陷阱方格则为陷阱方格
             if (nextX == x && nextY < y && room[nextX][nextY + 1] != 2) {
                 room[nextX][nextY] = 9;
             } else if (nextY == y && nextX < x && room[nextX + 1][nextY] != 2) {
@@ -262,7 +252,7 @@ public class Code10 {
         if (n == 0) {
             return "1";
         } else {
-            String str = eg16(n - 1);
+            String str = eg16(n - 1);//注意递归
             StringBuffer buffer = new StringBuffer();
             for (int i = 0; i < str.length(); ) {
                 int count = 1;
@@ -303,14 +293,12 @@ public class Code10 {
         Scanner sc = new Scanner(System.in);
         String[] split = sc.nextLine().split(",");
         String[] asks = sc.nextLine().split(",");
-        //用treeMap将大小和数量对应起来，并按大小排序
         TreeMap<Integer, Integer> map = new TreeMap<>();
-        for (String s : split) {
+        for (String s : split) {//用treeMap将大小和数量对应起来，并按大小排序
             Integer size = Integer.parseInt(s.split(":")[0]);
             Integer num = Integer.parseInt(s.split(":")[1]);
             map.put(size, num);
         }
-
         StringBuilder sb = new StringBuilder();
         ArrayList<Integer> list = new ArrayList<>(map.keySet()); //有参构造！！
         for (String s : asks) {
@@ -343,19 +331,14 @@ public class Code10 {
         int prev = -1;
         int max = 1;
         for (int i = 0; i < seats.length; i++) {
-            //遇到1时计算有多少个0
             if (seats[i] == 1) {
-                //前面遇到过1，要除以2
                 if (prev >= 0) max = Math.max((i - prev) / 2, max);
-                    //前面没有1不需要除2
                 else max = i;
                 prev = i;
             }
         }
-        //最后的0个数再判断一次
         max = Math.max((seats.length - 1) - prev, max);
         System.out.println(max);
-        ;
     }
 
     // 勾股数元组（素勾股数）  abc互质
@@ -381,7 +364,6 @@ public class Code10 {
         });
     }
 
-    //判断a,b,c互质
     public static boolean isPrim(int a, int b) {
         if (a < b) {
             int tmp = a;
@@ -423,19 +405,14 @@ public class Code10 {
                 int vi[] = new int[ints.length];
                 for (int i = 0; i < strs.length; i++) {
                     ints[i] = Integer.parseInt(strs[i]);// 无序的数组
-
                 }
-                //降序排序，9 3 3 5
                 Arrays.sort(ints, new Comparator<Integer>() {
                     @Override
                     public int compare(Integer arg0, Integer arg1) {
-                        // TODO Auto-generated method stub
                         return arg1 - arg0;
                     }
-
                 });
                 StringBuilder sb = new StringBuilder();
-                // 输出所在的坐标
                 for (int j = 0; j < strs.length; j++) {
                     int c = Integer.parseInt(strs[j]);
                     int k = 0;
